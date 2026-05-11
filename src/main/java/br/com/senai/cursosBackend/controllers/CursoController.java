@@ -3,6 +3,7 @@ package br.com.senai.cursosBackend.controllers;
 
 import br.com.senai.cursosBackend.curso.*;
 import jakarta.validation.Valid;
+import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -41,13 +42,16 @@ public class CursoController {
     }
     @PostMapping
     @Transactional
-    protected ResponseEntity<DadosDetalhesCurso> cadastrarCurso(@RequestBody @Valid DadosCadastroCurso dados){
+    protected ResponseEntity<HttpStatus> cadastrarCurso(@RequestBody @Valid DadosCadastroCurso dados){
 
+        if(!repository.existsCursoByNomeAndAtivoTrue(dados.nome())){
+            ResponseEntity.status(HttpStatus.valueOf(409));
+        }
         Curso curso = new Curso(dados);
 
         repository.save(curso);
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(new DadosDetalhesCurso(curso));
+        return ResponseEntity.status(HttpStatus.CREATED).build();
 
     }
 
@@ -56,12 +60,20 @@ public class CursoController {
     public  ResponseEntity<DadosDetalhesCurso> atualizarCurso(@RequestBody @Valid DadosAtualizarCurso dados){
         var cursoAtualizado = repository.getReferenceById(dados.id());
 
+        if(!repository.existsCursoByNomeAndAtivoTrue(dados.nome())){
+            ResponseEntity.status(HttpStatus.valueOf(409));
+        }
+
         cursoAtualizado.atualizarCurso(dados);
-
-
-
         return ResponseEntity.accepted().body(new DadosDetalhesCurso(cursoAtualizado));
     }
 
+    @DeleteMapping("{id}")
+    @Transactional
+    public void deletarCurso(@PathVariable Long id){
+        var curso = repository.getReferenceById(id);
+
+        curso.excluirCurso();
+    }
 
 }

@@ -13,4 +13,6 @@ public interface CursoRepository extends JpaRepository<Curso, Long> {
     List<Curso> findAllByAtivoTrue();
 
     Optional<Curso> findByIdAndAtivoTrue(Long id);
+
+    boolean existsCursoByNomeAndAtivoTrue(String nome);
 }

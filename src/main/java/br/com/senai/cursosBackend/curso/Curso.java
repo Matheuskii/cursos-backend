@@ -42,4 +42,8 @@ public class Curso {
            this.periodo = dados.periodo();
         }
     }
+
+    public void excluirCurso() {
+        ativo = false;
+    }
 }
