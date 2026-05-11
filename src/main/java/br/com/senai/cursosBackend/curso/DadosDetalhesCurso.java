@@ -13,8 +13,8 @@ public record DadosDetalhesCurso(
         @Schema(name = "periodo", description = "Periodo do curso", example = "Integral")
         Periodo periodo
 ) {
-        public DadosDetalhesCurso(Optional<Curso> curso) {
-                this(curso.get().getId(), curso.get().getNome(),curso.get().getPeriodo());
+        public DadosDetalhesCurso(Curso curso) {
+                this(curso.getId(), curso.getNome(),curso.getPeriodo());
         }
 
 
