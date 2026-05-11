@@ -22,4 +22,6 @@ public class Curso {
 
     @Enumerated(EnumType.STRING)
     private Periodo periodo;
+
+    private boolean ativo;
 }

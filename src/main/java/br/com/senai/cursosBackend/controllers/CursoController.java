@@ -21,7 +21,7 @@ public class CursoController {
 
     @GetMapping
     private List<DadosListagemCurso> listarCursos(){
-        List<Curso> cursos = repository.findAllbyAtivoTrue();
+        List<Curso> cursos = repository.findAllByAtivoTrue();
         return cursos.stream().map(DadosListagemCurso::new).toList();
 
     }

@@ -11,6 +11,6 @@ public record DadosListagemCurso (
         Periodo periodo
 ){
         public DadosListagemCurso(Curso curso) {
-            this(curso.getId(), curso.getNome(), curso.getPeriodo());
+            this(curso.getId(), curso.getNome(), curso.getPeriodo() );
         }
 }
