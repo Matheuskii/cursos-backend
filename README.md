@@ -51,7 +51,6 @@ Todos os endpoints abaixo estão sob o prefixo `/cursos`.
     ```json
     {
       "nome": "Nome do Curso",
-      "professor": "Nome do Professor",
       "periodo": "MATUTINO" 
     }
     ```
@@ -70,7 +69,6 @@ Todos os endpoints abaixo estão sob o prefixo `/cursos`.
     {
       "id": 1,
       "nome": "Novo Nome",
-      "professor": "Novo Professor",
       "periodo": "VESPERTINO"
     }
     ```
