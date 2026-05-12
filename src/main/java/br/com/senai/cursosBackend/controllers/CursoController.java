@@ -3,7 +3,6 @@ package br.com.senai.cursosBackend.controllers;
 
 import br.com.senai.cursosBackend.curso.*;
 import jakarta.validation.Valid;
-import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -44,8 +43,8 @@ public class CursoController {
     @Transactional
     protected ResponseEntity<HttpStatus> cadastrarCurso(@RequestBody @Valid DadosCadastroCurso dados){
 
-        if(!repository.existsCursoByNomeAndAtivoTrue(dados.nome())){
-            ResponseEntity.status(HttpStatus.valueOf(409));
+        if(repository.existsByNomeAndAtivoTrue(dados.nome())){
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "Nome já cadastrado no sistema");
         }
         Curso curso = new Curso(dados);
 
@@ -60,8 +59,8 @@ public class CursoController {
     public  ResponseEntity<DadosDetalhesCurso> atualizarCurso(@RequestBody @Valid DadosAtualizarCurso dados){
         var cursoAtualizado = repository.getReferenceById(dados.id());
 
-        if(!repository.existsCursoByNomeAndAtivoTrue(dados.nome())){
-            ResponseEntity.status(HttpStatus.valueOf(409));
+        if(repository.existsByNomeAndAtivoTrue(dados.nome())){
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "Nome já cadastrado no sistema");
         }
 
         cursoAtualizado.atualizarCurso(dados);
