@@ -4,7 +4,6 @@ import br.com.senai.cursosBackend.curso.*;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -68,7 +67,7 @@ public class CursoController {
             @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "Dados necessários para cadastrar um curso")
             @RequestBody @Valid DadosCadastroCurso dados){
 
-        if(repository.existsByNomeAndAtivoTrue(dados.nome())){
+        if(repository.existsByNomeAndPeriodoAndAtivoTrue(dados.nome(), dados.periodo())){
             throw new ResponseStatusException(HttpStatus.CONFLICT, "Nome já cadastrado no sistema");
         }
         Curso curso = new Curso(dados);
@@ -92,8 +91,8 @@ public class CursoController {
             @RequestBody @Valid DadosAtualizarCurso dados){
         var cursoAtualizado = repository.getReferenceById(dados.id());
 
-        if(repository.existsByNomeAndAtivoTrue(dados.nome())){
-            throw new ResponseStatusException(HttpStatus.CONFLICT, "Nome já cadastrado no sistema");
+        if(repository.existsByNomeAndPeriodoAndAtivoTrue(dados.nome(), dados.periodo())){
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "Curso já cadastrado no período selecionado");
         }
 
         cursoAtualizado.atualizarCurso(dados);
